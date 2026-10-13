@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>数据库维护 · 肾功能与抗肿瘤剂量计算辅助平台</title>
+<style>
+:root{--ink:#19333a;--muted:#6b8084;--line:#dbe7e5;--bg:#f3f8f7;--card:#fff;--teal:#167c78;--teal-dark:#0e625f;--danger:#b44242;--shadow:0 12px 32px rgba(22,61,64,.08);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);line-height:1.55}button,input,select,textarea{font:inherit}button{cursor:pointer}.top{background:#fff;border-bottom:1px solid var(--line);padding:14px clamp(16px,4vw,44px);display:flex;gap:16px;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:5}.brand{font-weight:800;font-size:16px}.brand small{display:block;color:var(--muted);font-size:12px;font-weight:500}.top-actions{display:flex;align-items:center;gap:10px}.top a{color:var(--teal-dark);text-decoration:none;font-weight:700}.wrap{width:min(1180px,calc(100% - 28px));margin:28px auto 60px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:clamp(18px,3vw,28px);margin-bottom:18px}.login-card{max-width:480px;margin:10vh auto}.eyebrow{color:var(--teal);font-weight:800;text-transform:uppercase;font-size:11px;letter-spacing:.12em}h1{font-size:clamp(24px,4vw,34px);line-height:1.2;margin:7px 0 8px}h2{font-size:20px;margin:0 0 8px}p{color:var(--muted);margin:6px 0 16px}.note{padding:12px 14px;border-radius:12px;background:#eff8f6;color:#315e5d;font-size:13px}.warning{background:#fff6e9;color:#815622}.error{color:#a53232;background:#fff0f0;border:1px solid #f1caca}.status{margin:12px 0;padding:10px 12px;border-radius:10px;font-size:13px;display:none}.status.show{display:block}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.field{display:flex;flex-direction:column;gap:5px;min-width:0}.field.full{grid-column:1/-1}.field label{font-size:12px;color:#526b70;font-weight:700}.field input,.field select,.field textarea{width:100%;border:1px solid #cbdad8;background:#fff;border-radius:10px;padding:10px 12px;color:var(--ink);outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:#4ca8a0;box-shadow:0 0 0 3px rgba(76,168,160,.14)}.field textarea{min-height:75px;resize:vertical}.btn{border:1px solid #cadbd8;background:#fff;color:var(--ink);border-radius:10px;padding:9px 14px;font-weight:700;transition:.15s}.btn:hover{border-color:#83b9b3;background:#f4fbf9}.btn.primary{background:var(--teal);color:white;border-color:var(--teal)}.btn.primary:hover{background:var(--teal-dark)}.btn.danger{color:var(--danger);border-color:#e6c5c5}.btn:disabled{opacity:.5;cursor:not-allowed}.btn.small{font-size:12px;padding:6px 9px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row.spread{justify-content:space-between}.toolbar{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:16px 0}.toolbar input[type=search]{flex:1;min-width:180px;border:1px solid #cbdad8;border-radius:10px;padding:10px 12px}.toolbar input[type=file]{max-width:260px}.muted{color:var(--muted);font-size:12px}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px}table{width:100%;border-collapse:collapse;min-width:760px;background:#fff}th,td{padding:11px 12px;border-bottom:1px solid #edf2f1;text-align:left;vertical-align:top;font-size:13px}th{background:#f6faf9;color:#587074;font-size:11px;text-transform:uppercase;letter-spacing:.04em;position:sticky;top:0}tr:last-child td{border-bottom:0}.dose{font-weight:750;color:#146e69}.drug-name{font-weight:750}.drug-id{display:block;font-size:11px;color:#77898c}.tag{display:inline-flex;border-radius:999px;padding:3px 8px;background:#eff7f6;color:#286d69;font-size:11px;font-weight:700}.toolbar .spacer{flex:1}.hidden{display:none!important}.modal-backdrop{position:fixed;inset:0;background:rgba(14,35,39,.48);z-index:20;display:grid;place-items:center;padding:14px}.modal{width:min(780px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:18px;box-shadow:0 24px 70px rgba(0,0,0,.25);padding:22px}.modal-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:14px}.icon-btn{border:0;background:#eef5f4;border-radius:9px;padding:7px 10px;font-size:18px;color:var(--ink)}.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}.qr-item{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid #edf2f1;padding:10px 0}.qr-item:last-child{border:0}.link{color:var(--teal-dark);overflow-wrap:anywhere}.foot{font-size:12px;color:var(--muted);text-align:center;padding:10px}
+@media(max-width:700px){.top{align-items:flex-start}.brand{max-width:65%}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.toolbar input[type=file]{max-width:100%;width:100%}.login-card{margin:7vh auto}.top-actions{flex-wrap:wrap;justify-content:flex-end}.card{border-radius:14px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">肾功能与抗肿瘤剂量计算辅助平台<small>独立数据库维护入口 · 管理员授权</small></div>
+  <div class="top-actions"><a href="./index.html">返回公开计算页</a><button id="logoutBtn" class="btn small hidden" type="button">退出登录</button></div>
+</header>
+<main class="wrap">
+  <section id="loginCard" class="card login-card">
+    <div class="eyebrow">Admin access</div>
+    <h1>数据库维护登录</h1>
+    <p>仅限获授权的 Supabase 管理员。公开访客和普通登录用户不能修改数据。</p>
+    <div class="field"><label for="email">管理员邮箱</label><input id="email" type="email" autocomplete="username" required placeholder="name@example.com"></div>
+    <div class="field" style="margin-top:12px"><label for="password">密码</label><input id="password" type="password" autocomplete="current-password" required></div>
+    <button id="loginBtn" class="btn primary" type="button" style="width:100%;margin-top:16px">登录并验证管理员权限</button>
+    <div id="loginStatus" class="status"></div>
+    <div class="note warning" style="margin-top:16px">不要在此处复用弱密码。账号由 Supabase Auth 管理；本页面不会保存或预填密码。</div>
+  </section>
+
+  <section id="appPanel" class="hidden">
+    <div class="card">
+      <div class="row spread"><div><div class="eyebrow">Authorized maintenance</div><h1 style="font-size:27px">规则与二维码维护</h1><p id="whoami" style="margin-bottom:0"></p></div><span class="tag">RLS 管理员会话</span></div>
+      <div id="appStatus" class="status"></div>
+      <div class="note warning" style="margin-top:16px">剂量数据属于临床辅助规则。保存前请复核适应证、肾功能区间、剂量单位及参考来源；变更会影响公开计算页。</div>
+    </div>
+
+    <section class="card">
+      <div class="row spread"><div><h2>剂量规则</h2><p id="countNote" style="margin:0"></p></div><div class="row"><button id="addBtn" class="btn primary" type="button">＋ 新增规则</button><button id="csvExportBtn" class="btn" type="button">导出 CSV</button><button id="jsonExportBtn" class="btn" type="button">备份 JSON</button></div></div>
+      <div class="toolbar">
+        <input id="searchInput" type="search" placeholder="搜索药品、肾功能分级或剂量">
+        <input id="importFile" type="file" accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+        <button id="previewImportBtn" class="btn" type="button">预览导入</button>
+      </div>
+      <div id="importPreview" class="note hidden"></div>
+      <div class="table-wrap"><table><thead><tr><th>药品</th><th>肾功能分级</th><th>CrCl 区间</th><th>剂量 / 规则摘要</th><th>维护</th></tr></thead><tbody id="rulesBody"><tr><td colspan="5">尚未加载</td></tr></tbody></table></div>
+    </section>
+
+    <section class="card">
+      <div class="row spread"><div><h2>说明书二维码</h2><p style="margin:0">图片存入 Supabase Storage，关联记录写入 drug_qr。</p></div><span class="tag">公开只读展示</span></div>
+      <div class="form-grid" style="margin-top:14px">
+        <div class="field"><label for="qrDrug">关联药品</label><select id="qrDrug"></select></div>
+        <div class="field"><label for="qrFile">二维码图片（PNG/JPG/WebP/GIF，最大 5 MB）</label><input id="qrFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></div>
+      </div>
+      <div class="row" style="margin:12px 0"><button id="uploadQrBtn" class="btn primary" type="button">上传 / 替换二维码</button><span id="qrCurrentHint" class="muted"></span></div>
+      <div id="qrList" class="muted">尚未加载</div>
+    </section>
+  </section>
+  <div class="foot">维护权限由 Supabase Auth 与数据库 RLS 强制执行；隐藏页面或按钮不作为安全边界。</div>
+</main>
+
+<div id="modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <div class="modal-head"><div><div class="eyebrow">Rule editor</div><h2 id="modalTitle">编辑剂量规则</h2></div><button id="closeModal" class="icon-btn" type="button" aria-label="关闭">×</button></div>
+    <form id="ruleForm"><input id="recordId" type="hidden"><div id="formFields" class="form-grid"></div><div class="modal-actions"><button id="cancelModal" class="btn" type="button">取消</button><button class="btn primary" type="submit">保存规则</button></div></form>
+  </div>
+</div>
+
+<script src="./supabase-config.js"></script>
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+const cfg=window.RENAL_SUPABASE_CONFIG||{};
+const url=String(cfg.url||'').replace(/\/+$/,'');
+const key=String(cfg.publishableKey||'').trim();
+const $=id=>document.getElementById(id);
+const fields=[
+  ['drug_id','药品 ID','text',true],['drug_name','药品名称','text',true],
+  ['renal_function_level','肾功能分级','text',false],['ccr_min','CrCl 最低值','text',false],['ccr_max','CrCl 最高值','text',false],
+  ['dose_unit','剂量单位','text',false],['dose_value','推荐剂量','text',false],['dose_total_value','总剂量','text',false],
+  ['dose_description','剂量描述','textarea',false],['adjustment_rule','剂量调整规则','textarea',false],
+  ['special_notes','特别提示','textarea',false],['reference','参考来源','text',false],['sort_order','排序号','number',false]
+];
+const exportFields=['_id','drug_id','drug_name','renal_function_level','ccr_min','ccr_max','dose_unit','dose_value','dose_total_value','dose_description','adjustment_rule','special_notes','reference','sort_order'];
+let client=null,records=[],qrRows=[],pendingImport=null;
+
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function status(el,msg,isError=false){el.textContent=msg;el.className='status show'+(isError?' error':'');}
+function clearStatus(el){el.textContent='';el.className='status';}
+function uuid(){return crypto.randomUUID?crypto.randomUUID():`id-${Date.now()}-${Math.random().toString(16).slice(2)}`;}
+function norm(v){return v===null||v===undefined?'':String(v).trim();}
+function fieldValue(record,key){return record&&record[key]!==undefined?record[key]:'';}
+function rowSummary(r){return [r.dose_description,r.dose_value&&r.dose_unit?`${r.dose_value} ${r.dose_unit}`:'',r.adjustment_rule].filter(Boolean).join(' · ')||'—';}
+function interval(r){if(!r.ccr_min&&!r.ccr_max)return '未限定';return `${r.ccr_min||'—'}–${r.ccr_max||'—'} ml/min`;}
+function makeClient(){
+  if(!/^https:\/\//i.test(url)||!key||/YOUR_|REPLACE_ME/i.test(key))throw new Error('请先在 site/supabase-config.js 填入 Supabase Project URL 和 Publishable Key。');
+  client=createClient(url,key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storage:window.sessionStorage}});
+}
+async function verifyAdmin(){
+  const {data,error}=await client.rpc('is_renal_admin');
+  if(error)throw new Error(`管理员权限检查失败：${error.message}`);
+  if(data!==true)throw new Error('此 Supabase 用户未获维护权限；请联系项目所有者登记该用户的 Auth UUID。');
+  return true;
+}
+async function showAuthorized(email){
+  await verifyAdmin();
+  $('loginCard').classList.add('hidden');$('appPanel').classList.remove('hidden');$('logoutBtn').classList.remove('hidden');
+  $('whoami').textContent=`已验证管理员：${email||'Supabase Auth 用户'}`;
+  clearStatus($('loginStatus'));
+  await loadAll();
+}
+async function login(){
+  const email=$('email').value.trim(),password=$('password').value;
+  if(!email||!password){status($('loginStatus'),'请输入管理员邮箱和密码。',true);return;}
+  $('loginBtn').disabled=true;status($('loginStatus'),'正在登录并检查管理员权限…');
+  try{
+    if(!client)makeClient();
+    const {data,error}=await client.auth.signInWithPassword({email,password});
+    if(error)throw error;
+    $('password').value='';
+    try{await showAuthorized(data.user?.email||email);}catch(err){await client.auth.signOut();throw err;}
+  }catch(err){status($('loginStatus'),err.message||'登录失败。',true);}
+  finally{$('loginBtn').disabled=false;}
+}
+async function logout(){
+  if(client)await client.auth.signOut();
+  records=[];qrRows=[];pendingImport=null;
+  $('appPanel').classList.add('hidden');$('loginCard').classList.remove('hidden');$('logoutBtn').classList.add('hidden');
+  $('password').value='';clearStatus($('loginStatus'));status($('loginStatus'),'已退出登录。');
+}
+async function loadAll(){
+  try{
+    const [rules,qr]=await Promise.all([
+      client.from('drug_rules').select('*').order('sort_order',{ascending:true}).order('_id',{ascending:true}),
+      client.from('drug_qr').select('*').order('drug_name',{ascending:true})
+    ]);
+    if(rules.error)throw rules.error;if(qr.error)throw qr.error;
+    records=rules.data||[];qrRows=qr.data||[];renderRules();renderQr();populateQrSelect();
+    status($('appStatus'),`已连接 Supabase：${records.length} 条规则，${qrRows.length} 条二维码关联。`);
+  }catch(err){status($('appStatus'),`读取失败：${err.message||err}`,true);}
+}
+function renderRules(){
+  const q=$('searchInput').value.trim().toLocaleLowerCase();
+  const rows=records.filter(r=>!q||`${r.drug_id} ${r.drug_name} ${r.renal_function_level} ${r.ccr_min} ${r.ccr_max} ${r.dose_value} ${r.dose_description}`.toLocaleLowerCase().includes(q));
+  $('countNote').textContent=`当前 ${records.length} 条规则 · ${rows.length} 条符合筛选`;
+  if(!rows.length){$('rulesBody').innerHTML='<tr><td colspan="5">没有匹配记录。</td></tr>';return;}
+  $('rulesBody').innerHTML=rows.map(r=>`<tr><td><span class="drug-name">${esc(r.drug_name)}</span><span class="drug-id">${esc(r.drug_id)} · ${esc(r._id)}</span></td><td>${esc(r.renal_function_level||'未标注')}</td><td>${esc(interval(r))}</td><td class="dose">${esc(rowSummary(r))}</td><td><div class="row"><button class="btn small" data-edit="${esc(r._id)}" type="button">编辑</button><button class="btn small danger" data-delete="${esc(r._id)}" type="button">删除</button></div></td></tr>`).join('');
+  $('rulesBody').querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>openEditor(records.find(r=>r._id===b.dataset.edit))));
+  $('rulesBody').querySelectorAll('[data-delete]').forEach(b=>b.addEventListener('click',()=>deleteRule(b.dataset.delete)));
+}
+function buildForm(){
+  $('formFields').innerHTML=fields.map(([key,label,type,required])=>{
+    const full=['dose_description','adjustment_rule','special_notes'].includes(key)?' full':'';
+    const el=type==='textarea'?`<textarea id="f-${key}" ${required?'required':''}></textarea>`:`<input id="f-${key}" type="${type}" ${required?'required':''} ${type==='number'?'step="1" min="0"':''}>`;
+    return `<div class="field${full}"><label for="f-${key}">${label}${required?' *':''}</label>${el}</div>`;
+  }).join('');
+}
+function openEditor(record=null){
+  $('ruleForm').reset();$('recordId').value=record?record._id:'';$('modalTitle').textContent=record?'编辑剂量规则':'新增剂量规则';
+  for(const [key] of fields){const el=$(`f-${key}`);el.value=fieldValue(record,key);}
+  if(!record){$('f-sort_order').value=records.reduce((m,r)=>Math.max(m,Number(r.sort_order)||0),-1)+1;}
+  $('modal').classList.remove('hidden');
+}
+function closeEditor(){$('modal').classList.add('hidden');}
+async function saveRule(event){
+  event.preventDefault();
+  const id=$('recordId').value;
+  const payload={};
+  for(const [key] of fields){const raw=$(`f-${key}`).value;payload[key]=key==='sort_order'?Number(raw||0):raw.trim();}
+  if(!payload.drug_id||!payload.drug_name){alert('药品 ID 和药品名称不能为空。');return;}
+  if(id){
+    const {error}=await client.from('drug_rules').update(payload).eq('_id',id);if(error){status($('appStatus'),`保存失败：${error.message}`,true);return;}
+  }else{
+    payload._id=uuid();
+    const {error}=await client.from('drug_rules').insert(payload);if(error){status($('appStatus'),`新增失败：${error.message}`,true);return;}
+  }
+  closeEditor();await loadAll();status($('appStatus'),id?'规则已更新。':'规则已新增。');
+}
+async function deleteRule(id){
+  const row=records.find(r=>r._id===id);if(!row)return;
+  if(!confirm(`确定删除“${row.drug_name}”的这条规则吗？此操作不可撤销。`))return;
+  const {error}=await client.from('drug_rules').delete().eq('_id',id);
+  if(error){status($('appStatus'),`删除失败：${error.message}`,true);return;}
+  await loadAll();status($('appStatus'),'规则已删除。');
+}
+function csvCell(v){return `"${String(v??'').replace(/"/g,'""')}"`;}
+function download(name,blob){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1200);}
+function exportCsv(){
+  const body=[exportFields.map(csvCell).join(','),...records.map(r=>exportFields.map(k=>csvCell(r[k]??'')).join(','))].join('\r\n');
+  download('renal_dose_rules.csv',new Blob(['\ufeff',body],{type:'text/csv;charset=utf-8'}));
+}
+function exportJson(){download('renal_dose_backup.json',new Blob([JSON.stringify({records,qr:qrRows,exportedAt:new Date().toISOString()},null,2)],{type:'application/json;charset=utf-8'}));}
+function parseCsv(text){
+  const rows=[];let row=[],cell='',quoted=false;
+  text=String(text).replace(/^\ufeff/,'');
+  for(let i=0;i<text.length;i++){
+    const c=text[i];
+    if(quoted){if(c==='"'&&text[i+1]==='"'){cell+='"';i++;}else if(c==='"'){quoted=false;}else{cell+=c;}}
+    else if(c==='"'){quoted=true;}else if(c===','){row.push(cell);cell='';}else if(c==='\n'){row.push(cell);rows.push(row);row=[];cell='';}else if(c!=='\r'){cell+=c;}
+  }
+  if(cell.length||row.length){row.push(cell);rows.push(row);}
+  if(!rows.length)return [];
+  const headers=rows.shift().map(h=>String(h||'').trim());
+  return rows.filter(r=>r.some(x=>String(x||'').trim()!=='')).map(r=>Object.fromEntries(headers.map((h,i)=>[h,r[i]??''])));
+}
+async function readImportFile(file){
+  if(file.name.toLowerCase().endsWith('.xlsx')){
+    if(!window.XLSX){
+      await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';s.onload=resolve;s.onerror=()=>reject(new Error('无法加载 XLSX 解析库；可将表格另存为 CSV 后导入。'));document.head.appendChild(s);});
+    }
+    const wb=window.XLSX.read(await file.arrayBuffer(),{type:'array'});
+    return window.XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:'',raw:false});
+  }
+  return parseCsv(await file.text());
+}
+async function previewImport(){
+  const file=$('importFile').files?.[0];if(!file){status($('appStatus'),'请先选择 CSV 或 XLSX 文件。',true);return;}
+  try{
+    const raw=await readImportFile(file);if(!raw.length)throw new Error('文件中没有数据行。');
+    // Some legacy CSVs include a second row of Chinese column descriptions. Detect
+    // that exact signature and report it in the preview rather than importing it.
+    const descriptionRows=raw.filter(r=>norm(r.drug_id)==='药物英文名'&&norm(r.drug_name)==='药物中文名');
+    const importRows=raw.filter(r=>!(norm(r.drug_id)==='药物英文名'&&norm(r.drug_name)==='药物中文名'));
+    if(!importRows.length)throw new Error('剔除字段说明行后没有可导入的数据。');
+    const existing=new Set(records.map(r=>String(r._id)));
+    const seen=new Set();let updates=0,creates=0;
+    const nextSort=records.reduce((m,r)=>Math.max(m,Number(r.sort_order)||0),-1)+1;
+    const prepared=importRows.map((source,i)=>{
+      const r={};for(const k of exportFields)r[k]=norm(source[k]);
+      if(!r.drug_id||!r.drug_name)throw new Error(`第 ${i+2} 行缺少 drug_id 或 drug_name。`);
+      if(!r._id)r._id=uuid();
+      if(seen.has(r._id))throw new Error(`导入文件中 _id 重复：${r._id}`);seen.add(r._id);
+      if(existing.has(r._id))updates++;else creates++;
+      r.sort_order=r.sort_order===''?nextSort+i:Number(r.sort_order);
+      if(!Number.isFinite(r.sort_order)||r.sort_order<0)throw new Error(`第 ${i+2} 行 sort_order 必须为非负整数。`);
+      for(const k of exportFields){if(k!=='sort_order')r[k]=String(r[k]??'');}
+      return r;
+    });
+    pendingImport=prepared;
+    const warning=creates?`\n缺少或未匹配现有 _id 的行按“新增”处理，不按药名猜测替换。`:'';
+    const descriptionNotice=descriptionRows.length?`\n检测到 ${descriptionRows.length} 条字段说明行，已在预览中排除且不会导入。`:'';
+    $('importPreview').textContent=`文件 ${file.name}：${prepared.length} 行；按相同 _id 更新 ${updates} 条；新增 ${creates} 条。${descriptionNotice}${warning}\n请复核文件后再确认。`;
+    $('importPreview').classList.remove('hidden');
+    $('previewImportBtn').textContent='确认导入';
+    $('previewImportBtn').dataset.confirm='1';
+    status($('appStatus'),'导入预览已生成；尚未修改数据库。');
+  }catch(err){pendingImport=null;$('importPreview').classList.add('hidden');$('previewImportBtn').textContent='预览导入';delete $('previewImportBtn').dataset.confirm;status($('appStatus'),`导入预览失败：${err.message||err}`,true);}
+}
+async function applyImport(){
+  if(!pendingImport?.length)return;
+  if(!confirm(`即将按 _id 更新/新增 ${pendingImport.length} 条规则。确认前请核对剂量、区间、单位及参考来源。继续？`))return;
+  const {error}=await client.from('drug_rules').upsert(pendingImport,{onConflict:'_id'});
+  if(error){status($('appStatus'),`导入失败：${error.message}`,true);return;}
+  pendingImport=null;$('importFile').value='';$('importPreview').classList.add('hidden');$('previewImportBtn').textContent='预览导入';delete $('previewImportBtn').dataset.confirm;
+  await loadAll();status($('appStatus'),'导入完成。');
+}
+function drugKey(id,name){return `${id}||${name}`;}
+function populateQrSelect(){
+  const selected=$('qrDrug').value;
+  const drugs=[...new Map(records.map(r=>[drugKey(r.drug_id,r.drug_name),{drug_id:r.drug_id,drug_name:r.drug_name}])).values()].sort((a,b)=>a.drug_name.localeCompare(b.drug_name,'zh-CN'));
+  $('qrDrug').innerHTML=drugs.map(d=>`<option value="${esc(drugKey(d.drug_id,d.drug_name))}">${esc(d.drug_name)} (${esc(d.drug_id)})</option>`).join('')||'<option value="">暂无药品</option>';
+  if(drugs.some(d=>drugKey(d.drug_id,d.drug_name)===selected))$('qrDrug').value=selected;
+  updateQrHint();
+}
+function updateQrHint(){
+  const [id,name]=($('qrDrug').value||'').split('||');const q=qrRows.find(x=>x.drug_id===id&&x.drug_name===name);
+  $('qrCurrentHint').textContent=q?`当前图片：${q.original_name||q.storage_path}`:'当前无二维码关联。';
+}
+function renderQr(){
+  if(!qrRows.length){$('qrList').textContent='当前没有二维码关联。';return;}
+  $('qrList').innerHTML=qrRows.map(q=>{
+    const publicUrl=client.storage.from('instructions').getPublicUrl(q.storage_path).data.publicUrl;
+    return `<div class="qr-item"><div><b>${esc(q.drug_name)}</b> <span class="drug-id">${esc(q.drug_id)} · ${esc(q.original_name||q.storage_path)}</span><a class="link" href="${esc(publicUrl)}" target="_blank" rel="noopener">查看图片</a></div><button class="btn small danger" type="button" data-remove-qr="${esc(drugKey(q.drug_id,q.drug_name))}">移除</button></div>`;
+  }).join('');
+  $('qrList').querySelectorAll('[data-remove-qr]').forEach(b=>b.addEventListener('click',()=>removeQr(b.dataset.removeQr)));
+}
+function safePathPart(v){return String(v||'drug').normalize('NFKD').replace(/[^a-zA-Z0-9_-]+/g,'_').slice(0,80)||'drug';}
+async function uploadQr(){
+  const file=$('qrFile').files?.[0];const keyValue=$('qrDrug').value;
+  if(!keyValue){status($('appStatus'),'请先选择药品。',true);return;}
+  if(!file){status($('appStatus'),'请选择二维码图片。',true);return;}
+  if(!['image/png','image/jpeg','image/webp','image/gif'].includes(file.type)){status($('appStatus'),'只支持 PNG、JPG、WebP 或 GIF。',true);return;}
+  if(file.size>5*1024*1024){status($('appStatus'),'图片不能超过 5 MB。',true);return;}
+  const [id,name]=keyValue.split('||');const prior=qrRows.find(q=>q.drug_id===id&&q.drug_name===name);
+  const ext=({ 'image/png':'png','image/jpeg':'jpg','image/webp':'webp','image/gif':'gif'})[file.type];
+  const path=`qr/${safePathPart(id)}/${uuid()}.${ext}`;
+  $('uploadQrBtn').disabled=true;status($('appStatus'),'正在上传二维码…');
+  try{
+    const up=await client.storage.from('instructions').upload(path,file,{contentType:file.type,upsert:false});if(up.error)throw up.error;
+    const saved=await client.from('drug_qr').upsert({drug_id:id,drug_name:name,storage_path:path,original_name:file.name,updated_at:new Date().toISOString()},{onConflict:'drug_id,drug_name'});
+    if(saved.error){await client.storage.from('instructions').remove([path]);throw saved.error;}
+    if(prior?.storage_path)await client.storage.from('instructions').remove([prior.storage_path]);
+    $('qrFile').value='';await loadAll();status($('appStatus'),'二维码已上传并关联。');
+  }catch(err){status($('appStatus'),`二维码上传失败：${err.message||err}`,true);}
+  finally{$('uploadQrBtn').disabled=false;}
+}
+async function removeQr(keyValue){
+  const [id,name]=keyValue.split('||');const row=qrRows.find(q=>q.drug_id===id&&q.drug_name===name);if(!row)return;
+  if(!confirm(`确认移除“${name}”的二维码关联吗？`))return;
+  const gone=await client.from('drug_qr').delete().eq('drug_id',id).eq('drug_name',name);
+  if(gone.error){status($('appStatus'),`移除失败：${gone.error.message}`,true);return;}
+  const removed=await client.storage.from('instructions').remove([row.storage_path]);
+  await loadAll();
+  status($('appStatus'),removed.error?`二维码关联已移除，但 Storage 图片未能删除，请由管理员检查对象路径：${row.storage_path}`:'二维码关联与图片已移除。',!!removed.error);
+}
+
+buildForm();
+$('loginBtn').addEventListener('click',login);
+$('password').addEventListener('keydown',e=>{if(e.key==='Enter')login();});
+$('logoutBtn').addEventListener('click',logout);
+$('addBtn').addEventListener('click',()=>openEditor());
+$('closeModal').addEventListener('click',closeEditor);$('cancelModal').addEventListener('click',closeEditor);
+$('modal').addEventListener('click',e=>{if(e.target===$('modal'))closeEditor();});
+$('ruleForm').addEventListener('submit',saveRule);
+$('searchInput').addEventListener('input',renderRules);
+$('csvExportBtn').addEventListener('click',exportCsv);$('jsonExportBtn').addEventListener('click',exportJson);
+$('previewImportBtn').addEventListener('click',()=> $('previewImportBtn').dataset.confirm?applyImport():previewImport());
+$('importFile').addEventListener('change',()=>{pendingImport=null;$('importPreview').classList.add('hidden');$('previewImportBtn').textContent='预览导入';delete $('previewImportBtn').dataset.confirm;});
+$('qrDrug').addEventListener('change',updateQrHint);$('uploadQrBtn').addEventListener('click',uploadQr);
+
+try{
+  makeClient();
+  const {data:{session}}=await client.auth.getSession();
+  if(session){
+    try{await showAuthorized(session.user?.email||'Supabase Auth 用户');}
+    catch(err){await client.auth.signOut();status($('loginStatus'),err.message||'当前账号没有管理员权限。',true);}
+  }
+}catch(err){status($('loginStatus'),err.message||'Supabase 配置无效。',true);}
+</script>
+</body>
+</html>
